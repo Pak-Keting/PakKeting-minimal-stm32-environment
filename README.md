@@ -79,7 +79,7 @@ st-flash --reset write yourFile.bin 0x08000000
 ```
 
 **Important Note:**
-* **Make sure to use the .bin file!** I'm banging my head off the wall over why the blink doesn't work, turns out I'm using .hex file instead of .bin (due to my muscle memory using avrdude, which uses .hex file. Take note avrdude user!)
+* **Make sure to use the .bin file!** I'm banging my head off the wall figuring out why the blink doesn't work, turns out I'm using .hex file instead of .bin (due to my muscle memory using avrdude, which uses .hex file. Take note avrdude user!)
 * The 4-pins programming header on Blue Pill and Black Pill doesn't include reset pin AFAIK, only `3v3`, `GND`, `SWDIO`, and `SWCLK`. So, don't forget to press the reset button everytime after you flashed the binary. This also gave me a headache as to why the blink doesn't work. Turns out I didn't press reset button.
 * If pressing the reset button everytime you flashed the MCU feels cumbersome, you can just wired up the ST-LINK V2 reset pin to `NRST` on the board.
 * Remove the `--reset` option if you didn't connect the reset pin to ST-LINK V2. I don't know if it a thing, this is just my gut. Ignore this if you know better. Though if the reset pin weren't connected, you'd need to press the reset button yourself.
