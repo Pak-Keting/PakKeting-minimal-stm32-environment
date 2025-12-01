@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "C:\\stm32_stuff\\arm-gnu-toolchain-14.3.rel1-mingw-w64-i686-arm-none-eabi\\bin\\arm-none-eabi-gcc.exe"
+        }
+    ],
+    "version": 4
+}

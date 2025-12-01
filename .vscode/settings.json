@@ -1,0 +1,7 @@
+{
+    "C_Cpp.errorSquiggles": "enabled",
+    "makefile.configureOnOpen": true,
+    "files.associations": {
+        "stm32f411xe.h": "c"
+    }
+}

@@ -1,0 +1,429 @@
+ARM GAS  C:\msys64\tmp\ccMF7m4D.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 6
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "main.c"
+  20              		.section	.text.SystemClock_Config,"ax",%progbits
+  21              		.align	1
+  22              		.global	SystemClock_Config
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	SystemClock_Config:
+  28              	.LFB0:
+   1:main.c        **** //#include "CMSIS/Device/ST/STM32F4xx/Include/stm32f411xe.h"
+   2:main.c        ****  #include "include/stm32f4xx.h"
+   3:main.c        ****  #include <stdint.h>
+   4:main.c        **** 
+   5:main.c        **** void SystemClock_Config(void)
+   6:main.c        **** {
+  29              		.loc 1 6 1
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 1, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  34 0000 80B4     		push	{r7}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 4
+  37              		.cfi_offset 7, -4
+  38 0002 00AF     		add	r7, sp, #0
+  39              	.LCFI1:
+  40              		.cfi_def_cfa_register 7
+   7:main.c        ****     /* 1. Enable HSE */
+   8:main.c        ****     RCC->CR |= RCC_CR_HSEON;
+  41              		.loc 1 8 8
+  42 0004 224B     		ldr	r3, .L5
+  43 0006 1B68     		ldr	r3, [r3]
+  44 0008 214A     		ldr	r2, .L5
+  45              		.loc 1 8 13
+  46 000a 43F48033 		orr	r3, r3, #65536
+  47 000e 1360     		str	r3, [r2]
+   9:main.c        ****     while(!(RCC->CR & RCC_CR_HSERDY));
+  48              		.loc 1 9 10
+  49 0010 00BF     		nop
+ARM GAS  C:\msys64\tmp\ccMF7m4D.s 			page 2
+
+
+  50              	.L2:
+  51              		.loc 1 9 16 discriminator 1
+  52 0012 1F4B     		ldr	r3, .L5
+  53 0014 1B68     		ldr	r3, [r3]
+  54              		.loc 1 9 21 discriminator 1
+  55 0016 03F40033 		and	r3, r3, #131072
+  56              		.loc 1 9 11 discriminator 1
+  57 001a 002B     		cmp	r3, #0
+  58 001c F9D0     		beq	.L2
+  10:main.c        **** 
+  11:main.c        ****     /* 2. Configure Flash wait states (0 WS for 0MHz < HCLK < 30MHz) */
+  12:main.c        ****     /* VERY IMPORTANT BIT HERE, IT'S THE REASON WHY IT DOESN'T WORK FOR ME THE FIRST TIME. */
+  13:main.c        ****     /* IF IT CONFIGURED WRONG AND OPERATING ON WRONG FREQUENCY RANGE, YOUR CODE WOULDN'T WORK */
+  14:main.c        ****     FLASH->ACR = FLASH_ACR_ICEN | FLASH_ACR_DCEN | FLASH_ACR_LATENCY_0WS;
+  59              		.loc 1 14 10
+  60 001e 1D4B     		ldr	r3, .L5+4
+  61              		.loc 1 14 16
+  62 0020 4FF4C062 		mov	r2, #1536
+  63 0024 1A60     		str	r2, [r3]
+  15:main.c        **** 
+  16:main.c        ****     /* PLL need to be configured before enabling it */
+  17:main.c        ****     /* 3. Configure PLL */
+  18:main.c        ****     RCC->PLLCFGR =
+  64              		.loc 1 18 8
+  65 0026 1A4B     		ldr	r3, .L5
+  66              		.loc 1 18 18
+  67 0028 1B4A     		ldr	r2, .L5+8
+  68 002a 5A60     		str	r2, [r3, #4]
+  19:main.c        ****          (15 << RCC_PLLCFGR_PLLM_Pos)   |  // PLL_M = 15
+  20:main.c        ****         (144 << RCC_PLLCFGR_PLLN_Pos)   |  // PLL_N = 144
+  21:main.c        ****           (0 << RCC_PLLCFGR_PLLP_Pos)   |  // PLL_P = 2 (00b = /2, 01b = /4)
+  22:main.c        ****           (5 << RCC_PLLCFGR_PLLQ_Pos)   |  // PLL_Q = 5
+  23:main.c        ****           RCC_PLLCFGR_PLLSRC_HSE;          // HSE selected
+  24:main.c        **** 
+  25:main.c        ****     /* 4. Enable PLL */
+  26:main.c        ****     RCC->CR |= RCC_CR_PLLON;
+  69              		.loc 1 26 8
+  70 002c 184B     		ldr	r3, .L5
+  71 002e 1B68     		ldr	r3, [r3]
+  72 0030 174A     		ldr	r2, .L5
+  73              		.loc 1 26 13
+  74 0032 43F08073 		orr	r3, r3, #16777216
+  75 0036 1360     		str	r3, [r2]
+  27:main.c        ****     while(!(RCC->CR & RCC_CR_PLLRDY));
+  76              		.loc 1 27 10
+  77 0038 00BF     		nop
+  78              	.L3:
+  79              		.loc 1 27 16 discriminator 1
+  80 003a 154B     		ldr	r3, .L5
+  81 003c 1B68     		ldr	r3, [r3]
+  82              		.loc 1 27 21 discriminator 1
+  83 003e 03F00073 		and	r3, r3, #33554432
+  84              		.loc 1 27 11 discriminator 1
+  85 0042 002B     		cmp	r3, #0
+  86 0044 F9D0     		beq	.L3
+  28:main.c        **** 
+  29:main.c        ****     /* 5. Set bus prescalers */
+ARM GAS  C:\msys64\tmp\ccMF7m4D.s 			page 3
+
+
+  30:main.c        ****     RCC->CFGR |= RCC_CFGR_HPRE_DIV1;   // AHB  = 100 MHz
+  87              		.loc 1 30 8
+  88 0046 124B     		ldr	r3, .L5
+  89 0048 114A     		ldr	r2, .L5
+  90 004a 9B68     		ldr	r3, [r3, #8]
+  91              		.loc 1 30 15
+  92 004c 9360     		str	r3, [r2, #8]
+  31:main.c        ****     RCC->CFGR |= RCC_CFGR_PPRE1_DIV1;  // APB1 = 50 MHz
+  93              		.loc 1 31 8
+  94 004e 104B     		ldr	r3, .L5
+  95 0050 0F4A     		ldr	r2, .L5
+  96 0052 9B68     		ldr	r3, [r3, #8]
+  97              		.loc 1 31 15
+  98 0054 9360     		str	r3, [r2, #8]
+  32:main.c        ****     RCC->CFGR |= RCC_CFGR_PPRE2_DIV1;  // APB2 = 100 MHz
+  99              		.loc 1 32 8
+ 100 0056 0E4B     		ldr	r3, .L5
+ 101 0058 0D4A     		ldr	r2, .L5
+ 102 005a 9B68     		ldr	r3, [r3, #8]
+ 103              		.loc 1 32 15
+ 104 005c 9360     		str	r3, [r2, #8]
+  33:main.c        **** 
+  34:main.c        ****     /* 6. Switch SYSCLK to PLL */
+  35:main.c        ****     /* I DIDN'T USE PLL AS A SYSCLK IN THIS CASE */
+  36:main.c        ****     // RCC->CFGR |= RCC_CFGR_SW_PLL;
+  37:main.c        ****     // while((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL);
+  38:main.c        **** 
+  39:main.c        ****     /* 6. Switch SYSCLK to HSE */
+  40:main.c        ****     RCC->CFGR |= RCC_CFGR_SW_HSE;
+ 105              		.loc 1 40 8
+ 106 005e 0C4B     		ldr	r3, .L5
+ 107 0060 9B68     		ldr	r3, [r3, #8]
+ 108 0062 0B4A     		ldr	r2, .L5
+ 109              		.loc 1 40 15
+ 110 0064 43F00103 		orr	r3, r3, #1
+ 111 0068 9360     		str	r3, [r2, #8]
+  41:main.c        ****     while((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_HSE);
+ 112              		.loc 1 41 10
+ 113 006a 00BF     		nop
+ 114              	.L4:
+ 115              		.loc 1 41 15 discriminator 1
+ 116 006c 084B     		ldr	r3, .L5
+ 117 006e 9B68     		ldr	r3, [r3, #8]
+ 118              		.loc 1 41 22 discriminator 1
+ 119 0070 03F00C03 		and	r3, r3, #12
+ 120              		.loc 1 41 38 discriminator 1
+ 121 0074 042B     		cmp	r3, #4
+ 122 0076 F9D1     		bne	.L4
+  42:main.c        **** 
+  43:main.c        ****     /* 7. Turn of the HSI */
+  44:main.c        ****     RCC->CR &= ~(RCC_CR_HSION);
+ 123              		.loc 1 44 8
+ 124 0078 054B     		ldr	r3, .L5
+ 125 007a 1B68     		ldr	r3, [r3]
+ 126 007c 044A     		ldr	r2, .L5
+ 127              		.loc 1 44 13
+ 128 007e 23F00103 		bic	r3, r3, #1
+ARM GAS  C:\msys64\tmp\ccMF7m4D.s 			page 4
+
+
+ 129 0082 1360     		str	r3, [r2]
+  45:main.c        **** }
+ 130              		.loc 1 45 1
+ 131 0084 00BF     		nop
+ 132 0086 BD46     		mov	sp, r7
+ 133              	.LCFI2:
+ 134              		.cfi_def_cfa_register 13
+ 135              		@ sp needed
+ 136 0088 5DF8047B 		ldr	r7, [sp], #4
+ 137              	.LCFI3:
+ 138              		.cfi_restore 7
+ 139              		.cfi_def_cfa_offset 0
+ 140 008c 7047     		bx	lr
+ 141              	.L6:
+ 142 008e 00BF     		.align	2
+ 143              	.L5:
+ 144 0090 00380240 		.word	1073887232
+ 145 0094 003C0240 		.word	1073888256
+ 146 0098 0F244005 		.word	88089615
+ 147              		.cfi_endproc
+ 148              	.LFE0:
+ 150              		.section	.text.GPIOC_INIT,"ax",%progbits
+ 151              		.align	1
+ 152              		.global	GPIOC_INIT
+ 153              		.syntax unified
+ 154              		.thumb
+ 155              		.thumb_func
+ 157              	GPIOC_INIT:
+ 158              	.LFB1:
+  46:main.c        **** 
+  47:main.c        **** void GPIOC_INIT() {
+ 159              		.loc 1 47 19
+ 160              		.cfi_startproc
+ 161              		@ args = 0, pretend = 0, frame = 0
+ 162              		@ frame_needed = 1, uses_anonymous_args = 0
+ 163              		@ link register save eliminated.
+ 164 0000 80B4     		push	{r7}
+ 165              	.LCFI4:
+ 166              		.cfi_def_cfa_offset 4
+ 167              		.cfi_offset 7, -4
+ 168 0002 00AF     		add	r7, sp, #0
+ 169              	.LCFI5:
+ 170              		.cfi_def_cfa_register 7
+  48:main.c        ****     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;  /* Enable GPIOC */
+ 171              		.loc 1 48 8
+ 172 0004 084B     		ldr	r3, .L8
+ 173 0006 1B6B     		ldr	r3, [r3, #48]
+ 174 0008 074A     		ldr	r2, .L8
+ 175              		.loc 1 48 18
+ 176 000a 43F00403 		orr	r3, r3, #4
+ 177 000e 1363     		str	r3, [r2, #48]
+  49:main.c        ****     GPIOC->MODER |= GPIO_MODER_MODER13_0; /* Change output MODE of C13 */
+ 178              		.loc 1 49 10
+ 179 0010 064B     		ldr	r3, .L8+4
+ 180 0012 1B68     		ldr	r3, [r3]
+ 181 0014 054A     		ldr	r2, .L8+4
+ 182              		.loc 1 49 18
+ARM GAS  C:\msys64\tmp\ccMF7m4D.s 			page 5
+
+
+ 183 0016 43F08063 		orr	r3, r3, #67108864
+ 184 001a 1360     		str	r3, [r2]
+  50:main.c        **** }
+ 185              		.loc 1 50 1
+ 186 001c 00BF     		nop
+ 187 001e BD46     		mov	sp, r7
+ 188              	.LCFI6:
+ 189              		.cfi_def_cfa_register 13
+ 190              		@ sp needed
+ 191 0020 5DF8047B 		ldr	r7, [sp], #4
+ 192              	.LCFI7:
+ 193              		.cfi_restore 7
+ 194              		.cfi_def_cfa_offset 0
+ 195 0024 7047     		bx	lr
+ 196              	.L9:
+ 197 0026 00BF     		.align	2
+ 198              	.L8:
+ 199 0028 00380240 		.word	1073887232
+ 200 002c 00080240 		.word	1073874944
+ 201              		.cfi_endproc
+ 202              	.LFE1:
+ 204              		.section	.text.main,"ax",%progbits
+ 205              		.align	1
+ 206              		.global	main
+ 207              		.syntax unified
+ 208              		.thumb
+ 209              		.thumb_func
+ 211              	main:
+ 212              	.LFB2:
+  51:main.c        **** 
+  52:main.c        **** #define DELAY_S 2500000
+  53:main.c        **** int main() {
+ 213              		.loc 1 53 12
+ 214              		.cfi_startproc
+ 215              		@ args = 0, pretend = 0, frame = 8
+ 216              		@ frame_needed = 1, uses_anonymous_args = 0
+ 217 0000 80B5     		push	{r7, lr}
+ 218              	.LCFI8:
+ 219              		.cfi_def_cfa_offset 8
+ 220              		.cfi_offset 7, -8
+ 221              		.cfi_offset 14, -4
+ 222 0002 82B0     		sub	sp, sp, #8
+ 223              	.LCFI9:
+ 224              		.cfi_def_cfa_offset 16
+ 225 0004 00AF     		add	r7, sp, #0
+ 226              	.LCFI10:
+ 227              		.cfi_def_cfa_register 7
+  54:main.c        ****     SystemClock_Config();
+ 228              		.loc 1 54 5
+ 229 0006 FFF7FEFF 		bl	SystemClock_Config
+  55:main.c        **** 
+  56:main.c        ****     /* Set NOVBUSSENS because Black Pill doesn't have it */
+  57:main.c        ****     /* This is for USB, so if you planned to use it, keep this in mind */
+  58:main.c        ****     USB_OTG_FS->GCCFG |= USB_OTG_GCCFG_NOVBUSSENS;
+ 230              		.loc 1 58 15
+ 231 000a 4FF0A043 		mov	r3, #1342177280
+ 232 000e 9B6B     		ldr	r3, [r3, #56]
+ARM GAS  C:\msys64\tmp\ccMF7m4D.s 			page 6
+
+
+ 233 0010 4FF0A042 		mov	r2, #1342177280
+ 234              		.loc 1 58 23
+ 235 0014 43F40013 		orr	r3, r3, #2097152
+ 236 0018 9363     		str	r3, [r2, #56]
+  59:main.c        **** 
+  60:main.c        ****     GPIOC_INIT();
+ 237              		.loc 1 60 5
+ 238 001a FFF7FEFF 		bl	GPIOC_INIT
+ 239              	.L15:
+  61:main.c        **** 
+  62:main.c        ****     /* I know is is probaly the most ugly loop you'll ever see, but */
+  63:main.c        ****     /* I've already burned out at this stage. I just wanted to see it blink */
+  64:main.c        ****     int i;
+  65:main.c        ****     while(1) {
+  66:main.c        ****         GPIOC->ODR |= GPIO_ODR_OD13; // Turn off LED
+ 240              		.loc 1 66 14
+ 241 001e 124B     		ldr	r3, .L16
+ 242 0020 5B69     		ldr	r3, [r3, #20]
+ 243 0022 114A     		ldr	r2, .L16
+ 244              		.loc 1 66 20
+ 245 0024 43F40053 		orr	r3, r3, #8192
+ 246 0028 5361     		str	r3, [r2, #20]
+  67:main.c        ****         for(i = 0; i<DELAY_S/4/2; i++) {
+ 247              		.loc 1 67 15
+ 248 002a 0023     		movs	r3, #0
+ 249 002c 7B60     		str	r3, [r7, #4]
+ 250              		.loc 1 67 9
+ 251 002e 03E0     		b	.L11
+ 252              	.L12:
+  68:main.c        ****             __asm__("nop");
+ 253              		.loc 1 68 13
+ 254              		.syntax unified
+ 255              	@ 68 "main.c" 1
+ 256 0030 00BF     		nop
+ 257              	@ 0 "" 2
+  67:main.c        ****         for(i = 0; i<DELAY_S/4/2; i++) {
+ 258              		.loc 1 67 36 discriminator 3
+ 259              		.thumb
+ 260              		.syntax unified
+ 261 0032 7B68     		ldr	r3, [r7, #4]
+ 262 0034 0133     		adds	r3, r3, #1
+ 263 0036 7B60     		str	r3, [r7, #4]
+ 264              	.L11:
+  67:main.c        ****         for(i = 0; i<DELAY_S/4/2; i++) {
+ 265              		.loc 1 67 21 discriminator 1
+ 266 0038 7B68     		ldr	r3, [r7, #4]
+ 267 003a 0C4A     		ldr	r2, .L16+4
+ 268 003c 9342     		cmp	r3, r2
+ 269 003e F7DD     		ble	.L12
+  69:main.c        ****         }
+  70:main.c        **** 
+  71:main.c        ****         GPIOC->ODR &= ~(GPIO_ODR_OD13); // Turn on LED
+ 270              		.loc 1 71 14
+ 271 0040 094B     		ldr	r3, .L16
+ 272 0042 5B69     		ldr	r3, [r3, #20]
+ 273 0044 084A     		ldr	r2, .L16
+ 274              		.loc 1 71 20
+ARM GAS  C:\msys64\tmp\ccMF7m4D.s 			page 7
+
+
+ 275 0046 23F40053 		bic	r3, r3, #8192
+ 276 004a 5361     		str	r3, [r2, #20]
+  72:main.c        ****         for(i = 0; i<DELAY_S/2; i++) {
+ 277              		.loc 1 72 15
+ 278 004c 0023     		movs	r3, #0
+ 279 004e 7B60     		str	r3, [r7, #4]
+ 280              		.loc 1 72 9
+ 281 0050 03E0     		b	.L13
+ 282              	.L14:
+  73:main.c        ****             __asm__("nop");
+ 283              		.loc 1 73 13
+ 284              		.syntax unified
+ 285              	@ 73 "main.c" 1
+ 286 0052 00BF     		nop
+ 287              	@ 0 "" 2
+  72:main.c        ****         for(i = 0; i<DELAY_S/2; i++) {
+ 288              		.loc 1 72 34 discriminator 3
+ 289              		.thumb
+ 290              		.syntax unified
+ 291 0054 7B68     		ldr	r3, [r7, #4]
+ 292 0056 0133     		adds	r3, r3, #1
+ 293 0058 7B60     		str	r3, [r7, #4]
+ 294              	.L13:
+  72:main.c        ****         for(i = 0; i<DELAY_S/2; i++) {
+ 295              		.loc 1 72 21 discriminator 1
+ 296 005a 7B68     		ldr	r3, [r7, #4]
+ 297 005c 044A     		ldr	r2, .L16+8
+ 298 005e 9342     		cmp	r3, r2
+ 299 0060 F7DD     		ble	.L14
+  74:main.c        ****         }
+  75:main.c        ****         i = 0;
+ 300              		.loc 1 75 11
+ 301 0062 0023     		movs	r3, #0
+ 302 0064 7B60     		str	r3, [r7, #4]
+  66:main.c        ****         for(i = 0; i<DELAY_S/4/2; i++) {
+ 303              		.loc 1 66 20
+ 304 0066 DAE7     		b	.L15
+ 305              	.L17:
+ 306              		.align	2
+ 307              	.L16:
+ 308 0068 00080240 		.word	1073874944
+ 309 006c B3C40400 		.word	312499
+ 310 0070 CF121300 		.word	1249999
+ 311              		.cfi_endproc
+ 312              	.LFE2:
+ 314              		.text
+ 315              	.Letext0:
+ 316              		.file 2 "C:/stm32_stuff/arm-gnu-toolchain-14.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/inc
+ 317              		.file 3 "C:/stm32_stuff/arm-gnu-toolchain-14.3.rel1-mingw-w64-i686-arm-none-eabi/arm-none-eabi/inc
+ 318              		.file 4 "include/stm32f411xe.h"
+ARM GAS  C:\msys64\tmp\ccMF7m4D.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\msys64\tmp\ccMF7m4D.s:21     .text.SystemClock_Config:00000000 $t
+C:\msys64\tmp\ccMF7m4D.s:27     .text.SystemClock_Config:00000000 SystemClock_Config
+C:\msys64\tmp\ccMF7m4D.s:144    .text.SystemClock_Config:00000090 $d
+C:\msys64\tmp\ccMF7m4D.s:151    .text.GPIOC_INIT:00000000 $t
+C:\msys64\tmp\ccMF7m4D.s:157    .text.GPIOC_INIT:00000000 GPIOC_INIT
+C:\msys64\tmp\ccMF7m4D.s:199    .text.GPIOC_INIT:00000028 $d
+C:\msys64\tmp\ccMF7m4D.s:205    .text.main:00000000 $t
+C:\msys64\tmp\ccMF7m4D.s:211    .text.main:00000000 main
+C:\msys64\tmp\ccMF7m4D.s:308    .text.main:00000068 $d
+
+NO UNDEFINED SYMBOLS
