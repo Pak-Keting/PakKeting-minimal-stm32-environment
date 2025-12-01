@@ -61,7 +61,7 @@ And we'll also be using Visual Code for debugging with OpenOCD and GDB, more on 
 1. Download and install [CubeMX](https://www.st.com/en/development-tools/stm32cubemx.html).
 1. Create new project on CubeMX and generate the code, we don't care about the IDE. We just here to "yank" `stm32xxx.h`, `startup_stm32xxx.asm`, `system_stm32xx.c`, `STM32XXX.ld`, and `Makefile`. More details [here](#14-create-a-project-and-generate-code-on-cubemx).
 
-Additionally, if you wanted to, you can download [ADDLATER_CubeProgrammer]() and use it. Honestly, jumping from 8-bit AVR MCU, debugging STM32 feel so surreal. You can literally access every bits of registers and memory, you can even manually setup and toggle the GPIO pin too!
+Additionally, if you wanted to, you can download [CubeProgrammer](https://www.st.com/en/development-tools/stm32cubeprog.html) and use it. Honestly, jumping from 8-bit AVR MCU, debugging STM32 feel so surreal. You can literally access every bits of registers and memory, you can even manually setup and toggle the GPIO pin too!
 
 ### 1.2. Note for Windows
 Install `msys2`, save you some headache later on, since this workflow are heavily depend on linux and gnu tools. You'll need to use something like `make`, `gdb`, `openocd`, `libusb (for st-link)`. Though except for `make`, you can get the Windows version of these binaries online, it just make a life easier to have all of these tools "centralized" inside `msys2`.
@@ -221,7 +221,7 @@ Now we'll see  what each register does.
 I know this is *cliche* line, but...
 > Read the datasheet.
 
-No seriously, you should. And if you find navigating the PDF are troublesome, there's [ADDLATER_Okular]() for Windows, and [ADDLATER_Evince]() for Linux. These software are *gamechanger* for me, and it really make reading and nagivating PDF hundreds times better that just using the browser's PDF reader.
+No seriously, you should. And if you find navigating the PDF are troublesome, there's [Okular](https://okular.kde.org/download/) for Windows and Linux, or [Evince](https://wiki.gnome.org/Apps/Evince) (only for Linux). These software are *gamechanger* for me, and it really make reading and nagivating PDF hundreds times better that just using the browser's PDF reader.
 
 #### 2.2.1. `CR`
 This are the simplest register to understand. It basically just turning on and off the clock sources. Anything with `xxxON` controls the on-state of the xxx clock source, like `HSEON` for HSE, and `PLLON` for PLL.
